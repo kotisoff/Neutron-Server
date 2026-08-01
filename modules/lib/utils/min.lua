@@ -31,7 +31,7 @@ function module.world.preparation_main()
         table.insert(packs, "server")
         app.reset_content({ "server" })
 
-        app.config_packs(table.merge(packs, plugins), {})
+        app.config_packs(table.merge(packs, plugins))
 
         logger.log("Creating a main world...")
         local name = CONFIG.game.main_world

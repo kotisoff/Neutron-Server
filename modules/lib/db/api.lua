@@ -23,7 +23,7 @@ function db.db.register()
         return CODES.db.DatabaseExists
     end
 
-    file.mkdir(utils.tables_path .. pack_name, pack_name)
+    file.mkdir(utils.tables_path .. pack_name)
     return CODES.Success
 end
 

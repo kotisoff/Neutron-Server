@@ -212,7 +212,7 @@ end
 
 function module.place_block(block_state, pid)
     if type(block_state.id) == 'string' then
-        block_state.id = block.index(block_state.id)
+        block_state.id = block.index(block_state.id --[[@as str]])
     end
 
     block.place(block_state.x, block_state.y, block_state.z, block_state.id, block_state.states, pid)
@@ -290,7 +290,7 @@ function module.set_day_time(time)
         return false
     end
 
-    time = math.normalize(tonumber(time))
+    time = math.normalize(tonumber(time) --[[@as number]])
     world.set_day_time(time)
     return true
 end

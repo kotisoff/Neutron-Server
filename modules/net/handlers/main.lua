@@ -296,7 +296,7 @@ Incorrect VoxelCore version:
         end
 
         local account = account_manager.login(packet.identity)
-        local account_player = sandbox.join_player(packet.username, account)
+        local account_player = sandbox.join_player(packet.username, account) --[[@as neutron.classes.Player]]
         client:set_account(account)
         client:set_player(account_player)
 
@@ -376,7 +376,9 @@ Incorrect VoxelCore version:
                 client)
         elseif not account.is_logged then
             if account.last_session then
+                ---@type { ip: str, timestamp: osdateparam }
                 local session = account.last_session;
+
                 local timestamp = os.time(session.timestamp);
                 local cur_time = os.time();
 
@@ -662,7 +664,7 @@ local function can_interact_with_block(player_obj, x, y, z, normal_check)
 end
 
 local function is_replaceable(x, y, z)
-   return table.has({ 0, -1 }, block.get(x, y, z))
+    return table.has({ 0, -1 }, block.get(x, y, z))
 end
 
 matches.client_online_handler:add_case(protocol.ClientMsg.BlockInteract, (
@@ -886,11 +888,11 @@ matches.client_online_handler:add_case(protocol.ClientMsg.EntityInteract, (
 
         if packet.action == 0 then
             for _, component in pairs(entity.components) do
-                (component.on_attacked or function() end)(player_eid, player_pid)
+                (component.on_attacked or function(a, b) end)(player_eid, player_pid)
             end
         elseif packet.action == 1 then
             for _, component in pairs(entity.components) do
-                (component.on_used or function() end)(player_pid)
+                (component.on_used or function(a) end)(player_pid)
             end
         else
             logger.log(string.format(

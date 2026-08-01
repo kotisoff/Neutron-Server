@@ -78,7 +78,7 @@ local function to_uint32(value)
 end
 
 --- Декодирование числа из формата Bincode Varint
---- @param buffer data буффер для декодирования
+--- @param buffer neutron.lib.io.bit_buffer буффер для декодирования
 --- @return number result Декодированное число
 function bincode.decode_varint(buffer)
     local first_byte = buffer:get_byte()
@@ -107,7 +107,7 @@ end
 
 --- Декодирование числа из формата Bincode Varint
 --- @param value number буффер для декодирования
---- @return byteArray result Декодированное число
+--- @return bytearray result Декодированное число
 function bincode.encode_varint(value)
     local buffer = data_buffer:new()
     -- If the first byte is less than 251, it's a single byte encoding

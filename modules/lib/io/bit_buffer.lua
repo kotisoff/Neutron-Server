@@ -1,3 +1,6 @@
+---@class neutron.lib.io.bit_buffer
+---@field recv_func? fun(buffer: neutron.lib.io.bit_buffer, id: number): any
+---@field external_buffer? neutron.lib.io.bit_buffer
 local bit_buffer =
 {
     __call =

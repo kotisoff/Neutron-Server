@@ -27,6 +27,10 @@
 --
 -- Copyright 2017 Jqqqi
 --
+
+-- ! Comment this if you encounter any errors with this lib
+---@diagnostic disable: undefined-global
+
 local sha256 = {}
 
 local MOD = 2 ^ 32

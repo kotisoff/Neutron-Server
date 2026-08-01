@@ -3,12 +3,13 @@ local lib = import "lib/utils/min"
 local Account = {}
 Account.__index = Account
 
-local accounts_proxy = metadata.proxy("server", "accounts")
+local accounts_proxy = metadata.proxy("server", "accounts") --[[@as table]]
 
 function Account.new(identity)
     local self = accounts_proxy[identity]
 
     if not self then
+        ---@class neutron.classes.Account
         self = {
             active = false,
             last_session = nil,

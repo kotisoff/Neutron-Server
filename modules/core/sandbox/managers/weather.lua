@@ -2,7 +2,30 @@ local bson = import "lib/data/bson"
 
 local module = {}
 
+---@class neutron.managers.weather.parent
+---@field weather any
+---@field time_start number
+---@field time_transition number
+---@field name str
+---@field wid int
+
+---@class neutron.managers.weather.point: neutron.managers.weather.parent
+---@field type "point"
+---@field x int
+---@field z int
+---@field radius number
+---@field duration number
+---@field on_finished function
+
+---@class neutron.managers.weather.heightmap
+---@field heightmap_generator function
+---@field range [number, number] min, max
+
+---@alias neutron.managers.weather.class neutron.managers.weather.point | neutron.managers.weather.heightmap
+
+---@type table<int, neutron.managers.weather.class>
 local WEATHERS = {}
+
 local MAX_WID = 1
 local READ_PATH = string.format("user:worlds/%s/server_resources/weather.bson", CONFIG.game.main_world)
 local WRITE_PATH = "world:server_resources/weather.bson"
@@ -98,6 +121,10 @@ function module.remove_weather(wid)
     WEATHERS[tohex(wid)] = nil
 end
 
+---@param weather neutron.managers.weather.class
+---@param x int
+---@param z int
+---@return nil|bool|neutron.managers.weather.class
 local function point_get_by_pos(weather, x, z)
     if (weather.time_start + weather.duration < world.get_total_time()) and weather.duration ~= -1 then
         module.remove_weather(weather.wid)
@@ -114,6 +141,10 @@ local function point_get_by_pos(weather, x, z)
     return true
 end
 
+---@param weather neutron.managers.weather.class
+---@param x int
+---@param z int
+---@return nil|bool|neutron.managers.weather.class
 local function heightmap_get_by_pos(weather, x, z)
     if not weather.heightmap_generator then
         return true
@@ -129,6 +160,9 @@ local function heightmap_get_by_pos(weather, x, z)
     return true
 end
 
+---@param x int
+---@param z int
+---@return nil|bool|neutron.managers.weather.class
 function module.get_by_pos(x, z)
     for _, weather in pairs(WEATHERS) do
         local f = nil
@@ -147,6 +181,8 @@ function module.get_by_pos(x, z)
     end
 end
 
+---@param wid int
+---@return nil|bool|neutron.managers.weather.class
 function module.get_by_wid(wid)
     return WEATHERS[tohex(wid)]
 end

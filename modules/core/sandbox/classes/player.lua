@@ -20,12 +20,13 @@ function Player.__index(self, key)
     return Player[key]
 end
 
-local players_proxy = metadata.proxy("players")
+local players_proxy = metadata.proxy("players") --[[@as table]]
 
 function Player.new(username, identity)
     local self = players_proxy[identity]
 
     if not self then
+        ---@class neutron.classes.Player
         self = {
             username = username,
             identity = identity,
